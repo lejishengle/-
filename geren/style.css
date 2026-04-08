@@ -1,0 +1,569 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* 噪点背景 */
+.noise-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    opacity: 0.8;
+    z-index: -1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* 噪点效果 */
+.noise-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* 容器 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 头部 */
+header {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-container {
+    flex-shrink: 0;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+}
+
+[contenteditable="true"] {
+    outline: 2px solid transparent;
+    transition: outline 0.3s ease;
+}
+
+[contenteditable="true"]:focus {
+    outline: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+[contenteditable="false"] {
+    cursor: default;
+}
+
+/* 卡片网格 */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* 卡片样式 */
+.card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* 摄影模块 */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.photo-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.photo-grid img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    filter: sepia(20%) contrast(110%) brightness(95%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.photo-grid img:hover {
+    transform: scale(1.05);
+    filter: sepia(0%) contrast(100%) brightness(100%);
+}
+
+.photo-grid img:nth-child(1) {
+    grid-row: span 2;
+    height: 210px;
+}
+
+/* 为不同图片添加不同的艺术效果 */
+.photo-item:nth-child(1) img {
+    filter: sepia(30%) contrast(115%) brightness(90%);
+}
+
+.photo-item:nth-child(2) img {
+    filter: grayscale(30%) contrast(105%) brightness(100%);
+}
+
+.photo-item:nth-child(3) img {
+    filter: sepia(15%) contrast(110%) brightness(95%) saturate(120%);
+}
+
+/* 摄影控制区域 */
+.photo-controls {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.photo-controls label {
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.photo-controls select {
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-size: 0.9rem;
+}
+
+.apply-photo-count {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.apply-photo-count:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* 不同图片数量的网格布局 */
+.photo-grid.count-1 {
+    grid-template-columns: 1fr;
+}
+
+.photo-grid.count-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.photo-grid.count-4 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.photo-grid.count-6 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.photo-grid.count-1 .photo-item img,
+.photo-grid.count-2 .photo-item img,
+.photo-grid.count-4 .photo-item img,
+.photo-grid.count-6 .photo-item img {
+    height: 150px;
+}
+
+.photo-grid.count-1 .photo-item:first-child img {
+    grid-row: span 1;
+    height: 300px;
+}
+
+/* 日历模块 */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar div {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+/* 博客模块 */
+.blog-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.post {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.post h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.post p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* 博客编辑功能 */
+.blog-editor {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+.blog-editor h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.blog-title {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.blog-content {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 10px;
+}
+
+.publish-btn, .cancel-btn, .add-blog-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-right: 10px;
+}
+
+.publish-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.publish-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.5);
+    color: #333;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.add-blog-btn {
+    margin-top: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.add-blog-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* 日记模块 */
+.diary-entry {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* 日记编辑功能 */
+.diary-editor {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+.diary-editor h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.diary-content {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 150px;
+    margin-bottom: 10px;
+}
+
+.save-diary-btn, .cancel-diary-btn, .add-diary-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-right: 10px;
+}
+
+.save-diary-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.save-diary-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.cancel-diary-btn {
+    background: rgba(255, 255, 255, 0.5);
+    color: #333;
+}
+
+.cancel-diary-btn:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.add-diary-btn {
+    margin-top: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.add-diary-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* 删除按钮样式 */
+.delete-post-btn, .delete-diary-btn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-post-btn:hover, .delete-diary-btn:hover {
+    background: rgba(255, 0, 0, 0.9);
+}
+
+/* 日记条目样式 */
+.diary-item {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* 底部表单 */
+.weird-form {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 30px;
+    text-align: center;
+}
+
+.weird-form h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.weird-form p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.weird-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.weird-form input {
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    font-size: 1rem;
+}
+
+.weird-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.weird-form button:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .weird-form form {
+        max-width: 100%;
+    }
+}
+
+/* 不对称布局调整 */
+.card-photo {
+    grid-column: span 2;
+}
+
+.card-calendar {
+    grid-column: span 1;
+}
+
+.card-blog {
+    grid-column: span 1;
+}
+
+.card-diary {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .card-photo,
+    .card-calendar,
+    .card-blog,
+    .card-diary {
+        grid-column: span 1;
+    }
+}
