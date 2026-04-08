@@ -66,6 +66,106 @@ function addCardHoverEffects() {
     });
 }
 
+// 保存数据到本地存储
+function saveData() {
+    const data = {
+        header: {
+            title: document.querySelector('header h1').textContent,
+            subtitle: document.querySelector('header p').textContent
+        },
+        avatar: document.querySelector('.avatar').src,
+        photos: Array.from(document.querySelectorAll('.photo-item img')).map(img => img.src),
+        blogs: Array.from(document.querySelectorAll('.blog-posts .post')).map(post => ({
+            title: post.querySelector('h3').textContent,
+            content: post.querySelector('p').textContent
+        })),
+        diaries: Array.from(document.querySelectorAll('.diary-entry .diary-item')).map(item => item.querySelector('p').textContent),
+        background: {
+            image: document.querySelector('.noise-background').style.backgroundImage,
+            color: document.querySelector('.noise-background').style.backgroundColor
+        }
+    };
+    localStorage.setItem('personalPageData', JSON.stringify(data));
+}
+
+// 从本地存储加载数据
+function loadData() {
+    const savedData = localStorage.getItem('personalPageData');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        
+        // 加载header内容
+        if (data.header) {
+            document.querySelector('header h1').textContent = data.header.title;
+            document.querySelector('header p').textContent = data.header.subtitle;
+        }
+        
+        // 加载头像
+        if (data.avatar) {
+            document.querySelector('.avatar').src = data.avatar;
+        }
+        
+        // 加载摄影图片
+        if (data.photos) {
+            const photoGrid = document.querySelector('.photo-grid');
+            photoGrid.innerHTML = '';
+            data.photos.forEach((src, index) => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                photoItem.innerHTML = `
+                    <img src="${src}" alt="摄影作品">
+                    <input type="file" class="photo-upload" accept="image/*" style="display: none;">
+                `;
+                photoGrid.appendChild(photoItem);
+            });
+        }
+        
+        // 加载博客
+        if (data.blogs) {
+            const blogPosts = document.querySelector('.blog-posts');
+            blogPosts.innerHTML = '';
+            data.blogs.forEach(blog => {
+                const post = document.createElement('div');
+                post.className = 'post';
+                post.innerHTML = `
+                    <h3 contenteditable="false">${blog.title}</h3>
+                    <p contenteditable="false">${blog.content}</p>
+                    <button class="delete-post-btn" style="display: none;">删除</button>
+                `;
+                blogPosts.appendChild(post);
+            });
+        }
+        
+        // 加载日记
+        if (data.diaries) {
+            const diaryEntry = document.querySelector('.diary-entry');
+            diaryEntry.innerHTML = '';
+            data.diaries.forEach(content => {
+                const diaryItem = document.createElement('div');
+                diaryItem.className = 'diary-item';
+                diaryItem.innerHTML = `
+                    <p contenteditable="false">${content}</p>
+                    <button class="delete-diary-btn" style="display: none;">删除</button>
+                `;
+                diaryEntry.appendChild(diaryItem);
+            });
+        }
+        
+        // 加载背景
+        if (data.background) {
+            const noiseBackground = document.querySelector('.noise-background');
+            if (data.background.image) {
+                noiseBackground.style.backgroundImage = data.background.image;
+                noiseBackground.style.backgroundSize = 'cover';
+                noiseBackground.style.backgroundPosition = 'center';
+            }
+            if (data.background.color) {
+                noiseBackground.style.backgroundColor = data.background.color;
+            }
+        }
+    }
+}
+
 // 编辑功能
 function addEditFunctionality() {
     const editableElements = document.querySelectorAll('[contenteditable]');
@@ -150,6 +250,7 @@ function addEditFunctionality() {
                         const newAvatarUrl = prompt('请输入新的头像URL：');
                         if (newAvatarUrl) {
                             avatar.src = newAvatarUrl;
+                            saveData(); // 保存数据
                         }
                     }
                 }
@@ -170,6 +271,7 @@ function addEditFunctionality() {
                         const newPhotoUrl = prompt('请输入新的图片URL：');
                         if (newPhotoUrl) {
                             photoImg.src = newPhotoUrl;
+                            saveData(); // 保存数据
                         }
                     }
                 }
@@ -183,6 +285,7 @@ function addEditFunctionality() {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     avatar.src = e.target.result;
+                    saveData(); // 保存数据
                 };
                 reader.readAsDataURL(file);
             }
@@ -199,6 +302,7 @@ function addEditFunctionality() {
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         photoImg.src = e.target.result;
+                        saveData(); // 保存数据
                     };
                     reader.readAsDataURL(file);
                 }
@@ -239,11 +343,14 @@ function addEditFunctionality() {
                             const reader = new FileReader();
                             reader.onload = function(e) {
                                 photoImg.src = e.target.result;
+                                saveData(); // 保存数据
                             };
                             reader.readAsDataURL(file);
                         }
                     });
                 });
+                
+                saveData(); // 保存数据
             });
         }
         
@@ -254,6 +361,7 @@ function addEditFunctionality() {
                 btn.addEventListener('click', function() {
                     if (confirm('确定要删除这篇博客吗？')) {
                         this.parentElement.remove();
+                        saveData(); // 保存数据
                     }
                 });
             });
@@ -266,6 +374,7 @@ function addEditFunctionality() {
                 btn.addEventListener('click', function() {
                     if (confirm('确定要删除这篇日记吗？')) {
                         this.parentElement.remove();
+                        saveData(); // 保存数据
                     }
                 });
             });
@@ -312,6 +421,7 @@ function addEditFunctionality() {
                     blogTitle.value = '';
                     blogContent.value = '';
                     
+                    saveData(); // 保存数据
                     alert('博客发布成功！');
                 } else {
                     alert('请填写完整的博客信息！');
@@ -352,6 +462,7 @@ function addEditFunctionality() {
                     diaryEditor.style.display = 'none';
                     diaryContent.value = '';
                     
+                    saveData(); // 保存数据
                     alert('日记保存成功！');
                 } else {
                     alert('请填写日记内容！');
@@ -380,6 +491,7 @@ function addEditFunctionality() {
                         noiseBackground.style.backgroundColor = newBackground;
                         noiseBackground.style.backgroundImage = 'none';
                     }
+                    saveData(); // 保存数据
                 }
             }
         });
@@ -394,6 +506,7 @@ function addEditFunctionality() {
                     noiseBackground.style.backgroundSize = 'cover';
                     noiseBackground.style.backgroundPosition = 'center';
                     noiseBackground.style.backgroundColor = 'transparent';
+                    saveData(); // 保存数据
                 };
                 reader.readAsDataURL(file);
             }
@@ -405,6 +518,7 @@ function addEditFunctionality() {
                 editableElements.forEach(element => {
                     element.contentEditable = 'false';
                 });
+                saveData(); // 保存数据
             }
         });
     }
@@ -438,6 +552,7 @@ function init() {
     handleFormSubmit();
     addCardHoverEffects();
     addAdminLogin();
+    loadData(); // 加载保存的数据
     addEditFunctionality();
 }
 
