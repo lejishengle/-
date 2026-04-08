@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+</head>
+<body>
+    <div class="noise-background"></div>
+    <input type="file" id="background-upload" accept="image/*" style="display: none;">
+    <div class="container">
+        <header>
+            <div class="avatar-container">
+                <img src="https://picsum.photos/100/100?random=10" alt="头像" class="avatar" contenteditable="false">
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            </div>
+            <h1 contenteditable="false">你好，我是一名独立设计师</h1>
+            <p contenteditable="false">专注于反主流的网页美学</p>
+        </header>
+        
+        <main>
+            <section class="card-grid">
+                <!-- 摄影模块 -->
+                <div class="card card-photo">
+                    <h2 contenteditable="false">摄影</h2>
+                    <div class="photo-controls" style="display: none;">
+                        <label for="photo-count">选择图片数量：</label>
+                        <select id="photo-count">
+                            <option value="1">1张</option>
+                            <option value="2">2张</option>
+                            <option value="3">3张</option>
+                            <option value="4">4张</option>
+                            <option value="6">6张</option>
+                        </select>
+                        <button class="apply-photo-count">应用</button>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-item">
+                            <img src="https://picsum.photos/300/200?random=1" alt="摄影作品">
+                            <input type="file" class="photo-upload" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="photo-item">
+                            <img src="https://picsum.photos/300/200?random=2" alt="摄影作品">
+                            <input type="file" class="photo-upload" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="photo-item">
+                            <img src="https://picsum.photos/300/200?random=3" alt="摄影作品">
+                            <input type="file" class="photo-upload" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 日历模块 -->
+                <div class="card card-calendar">
+                    <h2 contenteditable="false">日历</h2>
+                    <div class="calendar"></div>
+                </div>
+                
+                <!-- 博客模块 -->
+                <div class="card card-blog">
+                    <h2 contenteditable="false">博客</h2>
+                    <div class="blog-posts">
+                        <div class="post">
+                            <h3 contenteditable="false">如何设计反主流的网页</h3>
+                            <p contenteditable="false">摒弃传统，拥抱个性</p>
+                            <button class="delete-post-btn" style="display: none;">删除</button>
+                        </div>
+                        <div class="post">
+                            <h3 contenteditable="false">噪点背景的艺术</h3>
+                            <p contenteditable="false">让背景不再单调</p>
+                            <button class="delete-post-btn" style="display: none;">删除</button>
+                        </div>
+                    </div>
+                    <div class="blog-editor" style="display: none;">
+                        <h3>发布新博客</h3>
+                        <input type="text" class="blog-title" placeholder="博客标题">
+                        <textarea class="blog-content" placeholder="博客内容"></textarea>
+                        <button class="publish-btn">发布</button>
+                        <button class="cancel-btn">取消</button>
+                    </div>
+                    <button class="add-blog-btn" style="display: none;">添加博客</button>
+                </div>
+                
+                <!-- 日记模块 -->
+                <div class="card card-diary">
+                    <h2 contenteditable="false">日记</h2>
+                    <div class="diary-entry">
+                        <div class="diary-item">
+                            <p contenteditable="false">今天天气很好，适合拍照。</p>
+                            <button class="delete-diary-btn" style="display: none;">删除</button>
+                        </div>
+                        <div class="diary-item">
+                            <p contenteditable="false">尝试了一种新的设计风格，感觉不错。</p>
+                            <button class="delete-diary-btn" style="display: none;">删除</button>
+                        </div>
+                    </div>
+                    <div class="diary-editor" style="display: none;">
+                        <h3>写新日记</h3>
+                        <textarea class="diary-content" placeholder="日记内容"></textarea>
+                        <button class="save-diary-btn">保存</button>
+                        <button class="cancel-diary-btn">取消</button>
+                    </div>
+                    <button class="add-diary-btn" style="display: none;">写日记</button>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="weird-form">
+                <h2 contenteditable="false">想对我说点什么？</h2>
+                <p contenteditable="false">敢不敢留下你的想法？</p>
+                <form>
+                    <input type="text" placeholder="你的名字">
+                    <input type="text" placeholder="你的想法">
+                    <button type="submit">发送</button>
+                </form>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
